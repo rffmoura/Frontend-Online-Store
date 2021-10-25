@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Categorias from './Categorias';
-import { getCategories } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import ProductCard from './ProductCard';
 
 class Busca extends React.Component {
   constructor() {
@@ -10,6 +11,7 @@ class Busca extends React.Component {
     this.state = {
       input: '',
       categoriesList: [],
+      products: [],
     };
   }
 
@@ -24,6 +26,12 @@ class Busca extends React.Component {
     });
   };
 
+  handleSubmit = async () => {
+    const { input } = this.state;
+    const apiReturn = await getProductsFromCategoryAndQuery('CATEGORY_ID', input);
+    this.setState({ products: apiReturn.results });
+  }
+
   async fetchCategoriesAndSetOnState() {
     const categories = await getCategories();
     this.setState({
@@ -32,7 +40,7 @@ class Busca extends React.Component {
   }
 
   render() {
-    const { input, categoriesList } = this.state;
+    const { input, categoriesList, products } = this.state;
     return (
       <div>
         <h1 data-testid="home-initial-message">
@@ -40,6 +48,7 @@ class Busca extends React.Component {
         </h1>
         <label htmlFor="input">
           <input
+            data-testid="query-input"
             type="text"
             name="input"
             id="input"
@@ -47,7 +56,13 @@ class Busca extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-
+        <button
+          type="button"
+          data-testid="query-button"
+          onClick={ this.handleSubmit }
+        >
+          Buscar
+        </button>
         <Categorias lista={ categoriesList } />
 
         <Link
@@ -57,7 +72,12 @@ class Busca extends React.Component {
           {' '}
           Ícone para carrinho de compras
         </Link>
-
+        { products.map((product) => (
+          <ProductCard
+            product={ product }
+            key={ product.id }
+          />
+        )) }
       </div>
     );
   }
