@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Busca extends React.Component {
   constructor() {
@@ -33,6 +34,13 @@ class Busca extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
+        <Link
+          to="/shopping-cart"
+          data-testid="shopping-cart-button"
+        >
+          {' '}
+          Ícone para carrinho de compras
+        </Link>
       </div>
     );
   }
