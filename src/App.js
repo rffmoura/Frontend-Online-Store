@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Busca from './Components/Busca';
 import ShoppingCart from './Components/ShoppingCart';
-git status
+
 class App extends React.Component {
   render() {
     return (
