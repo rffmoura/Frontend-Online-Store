@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Categorias from './Categorias';
 import { getCategories } from '../services/api';
 
@@ -46,7 +47,17 @@ class Busca extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
+
         <Categorias lista={ categoriesList } />
+
+        <Link
+          to="/shopping-cart"
+          data-testid="shopping-cart-button"
+        >
+          {' '}
+          Ícone para carrinho de compras
+        </Link>
+
       </div>
     );
   }
