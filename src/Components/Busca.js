@@ -1,4 +1,6 @@
 import React from 'react';
+import Categorias from './Categorias';
+import { getCategories } from '../services/api';
 
 class Busca extends React.Component {
   constructor() {
@@ -6,19 +8,30 @@ class Busca extends React.Component {
 
     this.state = {
       input: '',
+      categoriesList: [],
     };
+  }
+
+  componentDidMount() {
+    this.fetchCategoriesAndSetOnState();
   }
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-
     this.setState({
       [name]: value,
     });
   };
 
+  async fetchCategoriesAndSetOnState() {
+    const categories = await getCategories();
+    this.setState({
+      categoriesList: categories,
+    });
+  }
+
   render() {
-    const { input } = this.state;
+    const { input, categoriesList } = this.state;
     return (
       <div>
         <h1 data-testid="home-initial-message">
@@ -33,6 +46,7 @@ class Busca extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
+        <Categorias lista={ categoriesList } />
       </div>
     );
   }
