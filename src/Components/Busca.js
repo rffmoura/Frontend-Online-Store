@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Categorias from './Categorias';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import ProductCard from './ProductCard';
@@ -49,6 +50,7 @@ class Busca extends React.Component {
 
   render() {
     const { input, categoriesList, products } = this.state;
+    const { cartFunc } = this.props;
     return (
       <div>
         <h1 data-testid="home-initial-message">
@@ -82,6 +84,7 @@ class Busca extends React.Component {
         </Link>
         { products.map((product) => (
           <ProductCard
+            cartFunc={ cartFunc }
             product={ product }
             key={ product.id }
           />
@@ -90,5 +93,9 @@ class Busca extends React.Component {
     );
   }
 }
+
+Busca.propTypes = {
+  cartFunc: PropTypes.func.isRequired,
+};
 
 export default Busca;

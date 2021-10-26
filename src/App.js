@@ -5,12 +5,35 @@ import Busca from './Components/Busca';
 import ShoppingCart from './Components/ShoppingCart';
 
 class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      cartList: [],
+    };
+  }
+
+  addToCart = (product) => {
+    // const item = {
+    //   product,
+    //   quant: 1,
+    // }
+
+    this.setState((prev) => ({
+      cartList: [...prev.cartList, product],
+    }));
+  };
+
   render() {
+    const { cartList } = this.state;
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={ Busca } />
-          <Route path="/shopping-cart" component={ ShoppingCart } />
+          <Route exact path="/" render={ () => <Busca cartFunc={ this.addToCart } /> } />
+          <Route
+            path="/shopping-cart"
+            render={ () => <ShoppingCart cart={ cartList } /> }
+          />
         </Switch>
       </BrowserRouter>
     );

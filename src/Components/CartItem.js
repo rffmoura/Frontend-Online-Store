@@ -1,38 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class ProductCard extends React.Component {
+class CartItem extends React.Component {
   render() {
-    const { product, cartFunc } = this.props;
+    const { product } = this.props;
     const { title, thumbnail, price } = product;
 
     return (
-      <div data-testid="product">
-        <h2>
+      <div>
+        <h2 data-testid="shopping-cart-product-name">
           { title }
         </h2>
         <img src={ thumbnail } alt={ title } />
         <p>
           { price }
         </p>
-        <button
-          type="button"
-          onClick={ () => cartFunc(product) }
-          data-testid="product-add-to-cart"
-        >
-          Adicionar ao Carrinho
-        </button>
+        <p data-testid="shopping-cart-product-quantity">
+          1
+        </p>
       </div>
     );
   }
 }
-ProductCard.propTypes = {
+
+CartItem.propTypes = {
   product: PropTypes.shape({
     title: PropTypes.string,
     thumbnail: PropTypes.string,
     price: PropTypes.number,
   }).isRequired,
-  cartFunc: PropTypes.func.isRequired,
 };
 
-export default ProductCard;
+export default CartItem;
