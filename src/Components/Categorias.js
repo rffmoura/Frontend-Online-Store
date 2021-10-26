@@ -3,15 +3,23 @@ import PropTypes from 'prop-types';
 
 class Categorias extends React.Component {
   render() {
-    const { lista } = this.props;
+    const { lista, handleClick } = this.props;
     return (
       <ul>
         {lista.map(({ id, name }) => (
           <li
-            data-testid="category"
             key={ id }
           >
-            { name }
+            <label htmlFor={ id }>
+              { name }
+              <input
+                data-testid="category"
+                type="radio"
+                name="category"
+                id={ id }
+                onClick={ (event) => handleClick(event, id) }
+              />
+            </label>
           </li>))}
       </ul>
     );
@@ -20,6 +28,7 @@ class Categorias extends React.Component {
 
 Categorias.propTypes = {
   lista: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Categorias;
