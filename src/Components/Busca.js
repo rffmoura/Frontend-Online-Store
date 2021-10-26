@@ -12,12 +12,20 @@ class Busca extends React.Component {
       input: '',
       categoriesList: [],
       products: [],
+      categoryFilter: 'CATEGORY_ID',
     };
   }
 
   componentDidMount() {
     this.fetchCategoriesAndSetOnState();
   }
+
+  handleCategoryClick = (_event, id) => {
+    this.setState(
+      { categoryFilter: id },
+      this.handleSubmit,
+    );
+  };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
@@ -27,8 +35,8 @@ class Busca extends React.Component {
   };
 
   handleSubmit = async () => {
-    const { input } = this.state;
-    const apiReturn = await getProductsFromCategoryAndQuery('CATEGORY_ID', input);
+    const { input, categoryFilter } = this.state;
+    const apiReturn = await getProductsFromCategoryAndQuery(categoryFilter, input);
     this.setState({ products: apiReturn.results });
   }
 
@@ -63,7 +71,7 @@ class Busca extends React.Component {
         >
           Buscar
         </button>
-        <Categorias lista={ categoriesList } />
+        <Categorias lista={ categoriesList } handleClick={ this.handleCategoryClick } />
 
         <Link
           to="/shopping-cart"
