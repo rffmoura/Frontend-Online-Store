@@ -9,20 +9,6 @@ class ProductCard extends React.Component {
 
     return (
       <div data-testid="product">
-        <h2>
-          { title }
-        </h2>
-        <img src={ thumbnail } alt={ title } />
-        <p>
-          { price }
-        </p>
-        <button
-          type="button"
-          onClick={ () => cartFunc(product) }
-          data-testid="product-add-to-cart"
-        >
-          Adicionar ao Carrinho
-        </button>
         <Link
           to={ {
             pathname: `/product-details/${id}`,
@@ -36,24 +22,31 @@ class ProductCard extends React.Component {
           } }
           data-testid="product-detail-link"
         >
-          <div data-testid="product">
-            <h2>{ title }</h2>
-            <img src={ thumbnail } alt={ title } />
-            <p>{ `R$${price.toFixed(2)}` }</p>
-          </div>
+          <h2>{ title }</h2>
         </Link>
+        <img src={ thumbnail } alt={ title } />
+        <p>{ `R$${price.toFixed(2)}` }</p>
+        <button
+          type="button"
+          onClick={ () => cartFunc(product) }
+          data-testid="product-add-to-cart"
+        >
+          Adicionar ao Carrinho
+        </button>
       </div>
     );
   }
 }
 
 ProductCard.propTypes = {
-  product: PropTypes.shape([]).isRequired,
-  title: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-  attributes: PropTypes.shape([]).isRequired,
+  product: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    attributes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+
   cartFunc: PropTypes.func.isRequired,
 };
 

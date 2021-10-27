@@ -13,22 +13,25 @@ class ProductDetails extends React.Component {
           <ul>
             {attributes.map((attribute) => (
               <li key={ attribute.id }>
-                {`${attribute.name}: ${attribute.value_name}`}
+                { `${attribute.name}: ${attribute.value_name}` }
               </li>
             ))}
           </ul>
         </div>
-        <p>{`R$${price.toFixed(2)}`}</p>
+        <p>{ `R$${price.toFixed(2)}` }</p>
       </div>
     );
   }
 }
 ProductDetails.propTypes = {
-  location: PropTypes.shape([]).isRequired,
-  title: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  attributes: PropTypes.shape([]).isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      title: PropTypes.string,
+      thumbnail: PropTypes.string,
+      price: PropTypes.number,
+      attributes: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
+  }).isRequired,
 };
 
 export default ProductDetails;
