@@ -1,24 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Busca from './Components/Busca';
+import ProductDetails from './Components/ProductDetails';
+import ShoppingCart from './Components/ShoppingCart';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={ logo } className="App-logo" alt="logo" />
-        <p>Edit src/App.js and save to reload.</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      cartList: [],
+    };
+  }
+
+  addToCart = (product) => {
+    this.setState((prev) => ({
+      cartList: [...prev.cartList, product],
+    }));
+  };
+
+  removeItem = ({ id }) => {
+    const { cartList } = this.state;
+    const newArr = cartList.filter((item) => item.id !== id);
+
+    this.setState({
+      cartList: newArr,
+    });
+  };
+
+  render() {
+    const { cartList } = this.state;
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" render={ () => <Busca cartFunc={ this.addToCart } /> } />
+          <Route
+            path="/shopping-cart"
+            render={ () => <ShoppingCart remove={ this.removeItem } cart={ cartList } /> }
+          />
+          <Route path="/product-details/:id" component={ ProductDetails } />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
